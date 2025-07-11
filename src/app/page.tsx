@@ -95,7 +95,7 @@ const BormLandingPage = () => {
               templates. Customize, share, and collect responses — all from one
               clean dashboard.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
               <button className="bg-black from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover: -xl transition-all transform  -105 flex items-center justify-center cursor-pointer">
                 <Bot className="w-5 h-5 mr-2" />
                 Build with AI
