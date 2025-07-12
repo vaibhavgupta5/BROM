@@ -46,25 +46,25 @@ const BormLandingPage = () => {
             <nav className="hidden md:flex space-x-8">
               <a
                 href="#features"
-                className="text-gray-700 hover:text-indigo-600 transition-colors font-medium"
+                className="text-black hover:text-indigo-600 transition-colors font-medium"
               >
                 Features
               </a>
               <a
                 href="#use-cases"
-                className="text-gray-700 hover:text-indigo-600 transition-colors font-medium"
+                className="text-black hover:text-indigo-600 transition-colors font-medium"
               >
                 Use Cases
               </a>
               <a
                 href="#demo"
-                className="text-gray-700 hover:text-indigo-600 transition-colors font-medium"
+                className="text-black hover:text-indigo-600 transition-colors font-medium"
               >
                 Demo
               </a>
             </nav>
             <div className="flex items-center space-x-4">
-              <button className="text-gray-700 hover:text-indigo-600 transition-colors cursor-pointer font-medium">
+              <button className="text-black hover:text-indigo-600 transition-colors cursor-pointer font-medium">
                 Sign In
               </button>
               <button className="bg-black text-white px-6 cursor-pointer py-2 rounded-xl hover: -lg transition-all transform  -105 font-medium border-black border ">
@@ -81,7 +81,7 @@ const BormLandingPage = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm text-gray-700 text-sm font-medium mb-8 border  border-black">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm text-black text-sm font-medium mb-8 border  border-black">
               <Zap className="w-4 h-4 mr-2 text-indigo-600" />
               Smart Form Builder
             </div>
@@ -90,7 +90,7 @@ const BormLandingPage = () => {
                 Create Smart, Shareable Forms in Seconds
               </span>
             </h1>
-            <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-black mb-8 max-w-3xl mx-auto">
               Use AI to auto-generate your form, or pick from pre-made
               templates. Customize, share, and collect responses — all from one
               clean dashboard.
@@ -100,15 +100,15 @@ const BormLandingPage = () => {
                 <Bot className="w-5 h-5 mr-2" />
                 Build with AI
               </button>
-              <button className="bg-white/70 backdrop-blur-sm text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-white/90 transition-all border  border-black flex items-center justify-center cursor-pointer  ">
+              <button className="bg-white/70 backdrop-blur-sm text-black px-8 py-4 rounded-xl font-semibold hover:bg-white/90 transition-all border  border-black flex items-center justify-center cursor-pointer  ">
                 <Folder className="w-5 h-5 mr-2" />
                 Choose a Template
               </button>
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center space-x-8 mt-12 text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-center space-x-8 mt-12 text-sm text-black">
+              <div className="flex items-center space-x-2 text-black">
                 <Download className="w-4 h-4" />
                 <span>10k+ Forms Created</span>
               </div>
@@ -129,10 +129,10 @@ const BormLandingPage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Two Ways to Get Started
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-black max-w-2xl mx-auto">
               {`Whether you want full control or instant suggestions — we've got
               you.`}
             </p>
@@ -144,10 +144,10 @@ const BormLandingPage = () => {
                 <div className="bg-black from-blue-500 to-indigo-600 text-white w-16 h-16 rounded-xl flex items-center justify-center mb-6 group- -110 transition-transform">
                   <Brain className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-2xl font-bold text-black mb-4">
                   Build with AI
                 </h3>
-                <ul className="space-y-3 text-gray-600 mb-6">
+                <ul className="space-y-3 text-black mb-6">
                   <li className="flex items-start space-x-3">
                     <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                     <span>
@@ -177,10 +177,10 @@ const BormLandingPage = () => {
                 <div className="bg-black from-purple-500 to-pink-600 text-white w-16 h-16 rounded-xl flex items-center justify-center mb-6 group- -110 transition-transform">
                   <Folder className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-2xl font-bold text-black mb-4">
                   Use a Template
                 </h3>
-                <ul className="space-y-3 text-gray-600 mb-6">
+                <ul className="space-y-3 text-black mb-6">
                   <li className="flex items-start space-x-3">
                     <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                     <span>
@@ -210,7 +210,7 @@ const BormLandingPage = () => {
       <section id="features" className="py-20 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Smart Features, Simple Experience
             </h2>
           </div>
@@ -275,10 +275,10 @@ const BormLandingPage = () => {
                 >
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-black mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
+                <p className="text-black text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -289,10 +289,10 @@ const BormLandingPage = () => {
       <section id="demo" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Real-Time Form Preview
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-black max-w-2xl mx-auto">
               See how your form looks on mobile, tablet, and desktop — as you
               build it. Instantly test changes and logic.
             </p>
@@ -305,8 +305,8 @@ const BormLandingPage = () => {
                   onClick={() => setPreviewMode("desktop")}
                   className={`px-4 py-2 rounded-lg  transition-all cursor-pointer flex items-center space-x-2 ${
                     previewMode === "desktop"
-                      ? "bg-white text-gray-900  -sm"
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "bg-white text-black  -sm"
+                      : "text-black hover:text-black"
                   }`}
                 >
                   <Monitor className="w-4 h-4" />
@@ -316,8 +316,8 @@ const BormLandingPage = () => {
                   onClick={() => setPreviewMode("tablet")}
                   className={`px-4 py-2 rounded-lg cursor-pointer transition-all flex items-center space-x-2 ${
                     previewMode === "tablet"
-                      ? "bg-white text-gray-900  -sm"
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "bg-white text-black  -sm"
+                      : "text-black hover:text-black"
                   }`}
                 >
                   <Tablet className="w-4 h-4" />
@@ -327,8 +327,8 @@ const BormLandingPage = () => {
                   onClick={() => setPreviewMode("mobile")}
                   className={`px-4 py-2 rounded-lg  cursor-pointer transition-all flex items-center space-x-2 ${
                     previewMode === "mobile"
-                      ? "bg-white text-gray-900  -sm"
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "bg-white text-black  -sm"
+                      : "text-black hover:text-black"
                   }`}
                 >
                   <Smartphone className="w-4 h-4" />
@@ -348,15 +348,15 @@ const BormLandingPage = () => {
                 }`}
               >
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-2xl font-bold text-black mb-2">
                     Student Feedback Form
                   </h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-black mb-6">
                     Help us improve your learning experience
                   </p>
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Student Name
                       </label>
                       <input
@@ -365,7 +365,7 @@ const BormLandingPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Course
                       </label>
                       <select className="w-full px-4 py-3 rounded-xl border  border-black focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
@@ -376,7 +376,7 @@ const BormLandingPage = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Overall Rating
                       </label>
                       <div className="flex space-x-2">
@@ -389,7 +389,7 @@ const BormLandingPage = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Additional Comments
                       </label>
                       <textarea
@@ -412,7 +412,7 @@ const BormLandingPage = () => {
       <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Manage Everything from One Clean Dashboard
             </h2>
           </div>
@@ -453,10 +453,10 @@ const BormLandingPage = () => {
                 >
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-black mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
+                <p className="text-black text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -467,7 +467,7 @@ const BormLandingPage = () => {
       <section id="use-cases" className="py-20 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Built for Everyone
             </h2>
           </div>
@@ -514,10 +514,10 @@ const BormLandingPage = () => {
                 >
                   {useCase.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-black mb-2">
                   {useCase.title}
                 </h3>
-                <p className="text-gray-600 text-sm">{useCase.description}</p>
+                <p className="text-black text-sm">{useCase.description}</p>
               </div>
             ))}
           </div>
@@ -534,7 +534,7 @@ const BormLandingPage = () => {
             Pick a template or describe your idea — Borm handles the rest.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all transform  -105  -lg flex items-center justify-center cursor-pointer">
+            <button className="bg-white text-black px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all transform  -105  -lg flex items-center justify-center cursor-pointer">
               <Bot className="w-5 h-5 mr-2" />
               Try the AI Builder
             </button>
