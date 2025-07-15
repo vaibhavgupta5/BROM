@@ -25,6 +25,7 @@ export type FieldType = {
 
 export type TemplateType = {
   id: number;
+  active?: boolean;
   title: string;
   wrapper?: string;
   fields: FieldType[];

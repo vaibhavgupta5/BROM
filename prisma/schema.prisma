@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  forms Form[]
+}
+
+model FormField {
+
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  type String
+  label String?
+  placeholder String?
+  layout String?
+  selectOptions String[] @default([])
+  style Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  formId String @db.ObjectId
+  form Form @relation("FormToFormFields", fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Form{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String @unique
+  wrapper String?
+  custom Json?
+  submitButton Json?
+  fields FormField[] @relation("FormToFormFields")
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
