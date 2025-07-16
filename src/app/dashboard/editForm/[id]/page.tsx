@@ -13,11 +13,12 @@ import {
   formTemplates,
   TemplateType,
 } from "@/constants/formTemplates";
-import { ChevronLeft, ChevronRight, Plus, XIcon } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Plus, XIcon } from "lucide-react";
 import { isValidURL } from "@/lib/utils";
 import AddFieldForm from "@/components/add-new-field";
 import { useFormStore } from "@/store/formStore";
 import { validateNotifications } from "@/errors/notification-edit";
+import axios from "axios";
 
 interface ButtonField {
   label: string;
@@ -34,12 +35,17 @@ export default function EditorPage() {
   const [selected, setSelected] = useState<FieldType | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [addBelow, setAddBelow] = useState<string>("");
-  const { setCurrTemplate } = useFormStore();
+  const { setCurrTemplate, getFormById } = useFormStore();
   const params = useParams();
   const formId = params.id;
 
-  const getFormById = (id: string) => {
-    return formTemplates.find((form) => form.id.toString() === id);
+  const getForm = (id: string) => {
+    const template = formTemplates.find((form) => form.id.toString() === id);
+    if (!template) {
+      const form = getFormById(id);
+      return form;
+    }
+    return template;
   };
 
   useEffect(() => {
@@ -50,16 +56,34 @@ export default function EditorPage() {
 
   useEffect(() => {
     if (!formId) return;
-    const form = getFormById(formId.toString());
-    if (form) {
-      setTemplate(form);
-      setCurrTemplate(form);
-      setFields(form.fields || []);
-      setSubmitButton(form.submitButton);
-    } else {
-      console.error("Form not found");
-    }
+
+    const fetchForm = async () => {
+      const form = await getForm(formId as string);
+
+      if (form) {
+        setTemplate(form as TemplateType);
+        setCurrTemplate(form as TemplateType);
+        setFields((form as TemplateType).fields as FieldType[]);
+        setSubmitButton((form as TemplateType).submitButton as ButtonField);
+      } else {
+        console.error("Form not found");
+      }
+    };
+
+    fetchForm();
   }, [formId]);
+
+
+  const saveTemplate = async (template: TemplateType | null) => {
+    if (!template) return;
+
+    try {
+      const response = await axios.post("/api/createTemplate", template);
+      setCurrTemplate(response.data);
+    } catch (error) {
+      console.error("Error saving template:", error);
+    }
+  };
 
   const addField = (field: Omit<FieldType, "id">) => {
     const newField = { ...field, id: uuidv4() };
@@ -177,7 +201,7 @@ export default function EditorPage() {
       setCurrSection("form");
     } else if (value === "integrate") {
       setCurrSection("notifications");
-    } 
+    }
   };
 
   const handleNextSectionChange = (value: string) => {
@@ -204,37 +228,49 @@ export default function EditorPage() {
           <ChevronLeft className=" w-4 h-4" /> Back
         </button>
         <h1 className="text-lg font-bold text-gray-800">brom</h1>
-        <button
-          className="text-sm flex justify-center items-center bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors cursor-pointer"
-          onClick={() => {
-            handleNextSectionChange(currSection);
-          }}
-        >
-          <span>Next</span> <ChevronRight className="ml-2 w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            className="text-sm flex justify-center items-center bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors cursor-pointer"
+            onClick={() => {
+              handleNextSectionChange(currSection);
+            }}
+          >
+            <span>Next</span> <ChevronRight className="ml-2 w-4 h-4" />
+          </button>
+          <button
+            className="text-sm flex justify-center items-center bg-white text-black border border-black px-4 py-2 rounded hover:bg-black hover:text-white transition-colors cursor-pointer"
+            onClick={() => {
+              saveTemplate(template);
+            }}
+          >
+            <span>Save</span> <Check className="ml-2 w-4 h-4" />
+          </button>
+        </div>
       </header>
 
       <div className="flex  bg-muted">
-      {currSection === "form" &&  <aside className="w-1/5 border-r border-gray-200 bg-white p-4 space-y-4">
-          <div>
-            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">
-              Components
-            </h2>
-            <div className="space-y-2">
-              {fields.map((field) => (
-                <Button
-                  key={field.id}
-                  variant="outline"
-                  className="w-full justify-start text-sm font-medium hover:bg-gray-100 transition-all"
-                  onClick={() => setSelected(field)}
-                >
-                  {field.label ||
-                    field.type.charAt(0).toUpperCase() + field.type.slice(1)}
-                </Button>
-              ))}
+        {currSection === "form" && (
+          <aside className="w-1/5 border-r border-gray-200 bg-white p-4 space-y-4">
+            <div>
+              <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">
+                Components
+              </h2>
+              <div className="space-y-2">
+                {fields.map((field) => (
+                  <Button
+                    key={field.id}
+                    variant="outline"
+                    className="w-full justify-start text-sm font-medium hover:bg-gray-100 transition-all"
+                    onClick={() => setSelected(field)}
+                  >
+                    {field.label ||
+                      field.type.charAt(0).toUpperCase() + field.type.slice(1)}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </aside>}
+          </aside>
+        )}
 
         <main className="flex-1 space-y-6 min-h-screen  overflow-y-auto">
           <Tabs
@@ -796,11 +832,11 @@ export default function EditorPage() {
                     className="px-8 !py-6 bg-black hover:bg-black/80  text-white font-medium rounded-lg transition-colors cursor-pointer"
                     onClick={() => {
                       console.log(template);
-                        if (!template) return;
+                      if (!template) return;
 
-                    if(validateNotifications(template)){
-                      setCurrTemplate(template);
-                    }
+                      if (validateNotifications(template)) {
+                        setCurrTemplate(template);
+                      }
                     }}
                   >
                     Save Notification Settings

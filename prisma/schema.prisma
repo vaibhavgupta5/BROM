@@ -9,12 +9,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @map("_id") @db.ObjectId
+  id        String   @id @map("_id")
   name      String
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  forms     Form[] 
+  forms     Form[]
+  submissions Submission[]
+}
+
+
+model Submission {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  formId    String   @db.ObjectId
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model FormField {
@@ -33,7 +46,7 @@ model FormField {
 
 model Form {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  title        String      @unique
+  title        String    
   wrapper      String?
   custom       Json?
   submitButton Json?
@@ -41,6 +54,7 @@ model Form {
   active       Boolean     @default(true)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  userId       String      @db.ObjectId
+  userId       String      
   user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submissions  Submission[]
 }
