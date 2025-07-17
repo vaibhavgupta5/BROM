@@ -24,6 +24,7 @@ export type FieldType = {
 };
 
 export type TemplateType = {
+  formId?: string; // Optional form ID for existing forms
   id: number;
   active?: boolean;
   title: string;

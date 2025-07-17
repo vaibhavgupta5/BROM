@@ -10,6 +10,9 @@ interface FormStore {
   setCurrTemplate: (template: TemplateType | null) => void;
   getFormById: (formId: string) => Promise<TemplateType | null | undefined>;
   createForm: (data: TemplateType) => Promise<TemplateType | null | undefined>;
+  saveTemplate: (template: TemplateType) => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
 }
 
 const getFirebaseUserId = async (): Promise<string | null | undefined> => {
@@ -89,4 +92,21 @@ export const useFormStore = create<FormStore>((set) => ({
       return null;
     }
   },
+  saveTemplate: async (template) => {
+    if (!template || !template.title || !template.fields || template.fields.length === 0 || !template.id) {
+      console.error("Invalid template data");
+      return;
+    }
+
+    try {
+      set({ isLoading: true });
+      const response = await axios.patch("/api/updateTemplate", template);
+      set({ currTemplate: response.data });
+      set({ isLoading: false });
+    } catch (error) {
+      console.error("Error saving template:", error);
+    }
+  },
+  isLoading: false,
+  setIsLoading: (loading) => set({ isLoading: loading }),
 }));

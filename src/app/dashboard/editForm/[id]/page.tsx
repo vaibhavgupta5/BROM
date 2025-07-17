@@ -13,24 +13,22 @@ import {
   formTemplates,
   TemplateType,
 } from "@/constants/formTemplates";
-import { Check, ChevronLeft, ChevronRight, Plus, XIcon } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Loader2, Plus, XIcon } from "lucide-react";
 import { isValidURL } from "@/lib/utils";
 import AddFieldForm from "@/components/add-new-field";
 import { useFormStore } from "@/store/formStore";
 import { validateNotifications } from "@/errors/notification-edit";
-import axios from "axios";
 
-interface ButtonField {
-  label: string;
-  wrapper?: string;
-  style?: string;
-  alignment?: "left" | "center" | "right";
-  redirectUrl?: string;
-}
+// interface ButtonField {
+//   label: string;
+//   wrapper?: string;
+//   style?: string;
+//   alignment?: "left" | "center" | "right";
+//   redirectUrl?: string;
+// }
 
 export default function EditorPage() {
   const [fields, setFields] = useState<FieldType[]>([]);
-  const [submitButton, setSubmitButton] = useState<ButtonField | undefined>();
   const [template, setTemplate] = useState<TemplateType | null>(null);
   const [selected, setSelected] = useState<FieldType | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,7 +62,6 @@ export default function EditorPage() {
         setTemplate(form as TemplateType);
         setCurrTemplate(form as TemplateType);
         setFields((form as TemplateType).fields as FieldType[]);
-        setSubmitButton((form as TemplateType).submitButton as ButtonField);
       } else {
         console.error("Form not found");
       }
@@ -73,15 +70,21 @@ export default function EditorPage() {
     fetchForm();
   }, [formId]);
 
-
   const saveTemplate = async (template: TemplateType | null) => {
     if (!template) return;
 
-    try {
-      const response = await axios.post("/api/createTemplate", template);
-      setCurrTemplate(response.data);
-    } catch (error) {
-      console.error("Error saving template:", error);
+    if (template?.id?.toString().length <= 3) {
+      try {
+        await useFormStore.getState().createForm(template);
+      } catch (error) {
+        console.error("Error saving template:", error);
+      }
+    } else {
+      try {
+        await useFormStore.getState().saveTemplate(template);
+      } catch (error) {
+        console.error("Error saving template:", error);
+      }
     }
   };
 
@@ -124,9 +127,22 @@ export default function EditorPage() {
     };
 
     setTemplate(updatedTemplate);
-    if (updatedTemplate.submitButton) {
-      setSubmitButton(updatedTemplate.submitButton);
-    }
+  };
+
+  const updateButtonFields = (key: string, value: string) => {
+    if (!template?.submitButton) return;
+    console.log(value);
+    const updatedTemplate: TemplateType = {
+      ...template,
+      submitButton: {
+        ...template.submitButton,
+        [key]: value,
+      },
+    };
+
+    console.log(updatedTemplate);
+
+    setTemplate(updatedTemplate);
   };
 
   const updateField = (field: FieldType) => {
@@ -172,7 +188,7 @@ export default function EditorPage() {
   };
 
   const getButtonStyle = () => {
-    const baseStyle = submitButton?.style || "";
+    const baseStyle = template?.submitButton?.style || "";
     const customStyles = [];
 
     if (template?.custom?.buttonColor) {
@@ -205,12 +221,13 @@ export default function EditorPage() {
   };
 
   const handleNextSectionChange = (value: string) => {
-    if (value === "notifications") {
-      setCurrSection("form");
-    } else if (value === "integrate") {
+    if (value === "form") {
       setCurrSection("notifications");
-    } else if (value === "finish") {
+    } else if (value === "notifications") {
       setCurrSection("integrate");
+    } else if (value === "integrate") {
+      setCurrSection("finish");
+      saveTemplate(template);
     }
   };
 
@@ -243,7 +260,30 @@ export default function EditorPage() {
               saveTemplate(template);
             }}
           >
-            <span>Save</span> <Check className="ml-2 w-4 h-4" />
+            {!useFormStore.getState().isLoading ? (
+              <div className="flex items-center">
+                <span>
+                  {template?.id && template.id.toString().length > 2
+                    ? "Save"
+                    : "Publish"}
+              </span>
+              <Check className="ml-2 w-4 h-4" />
+            </div>
+
+           ) : (
+            <div className="flex items-center">
+              <span>
+              {template?.id && template.id.toString().length > 2
+                ? "Saving..."
+                : "Publishing..."}
+            </span>
+            <Loader2 className="ml-2 w-4 h-4 animate-spin" />
+            </div>
+          )}
+
+          
+          
+          
           </button>
         </div>
       </header>
@@ -318,7 +358,7 @@ export default function EditorPage() {
                       field.style?.wrapper || "mb-4"
                     } cursor-pointer border border-dashed hover:border-black rounded-md p-4 ${
                       selected?.id === field.id
-                        ? "border-blue-500 bg-blue-50"
+                        ? "border-blue-500 bg-blue-50/50"
                         : ""
                     }`}
                     onClick={(e) => handleFieldClick(field, e)}
@@ -445,10 +485,10 @@ export default function EditorPage() {
                   </div>
                 ))}
 
-                {submitButton && (
+                {template?.submitButton && (
                   <div
                     className={`${
-                      submitButton.wrapper || "mt-6"
+                      template.submitButton.wrapper || "mt-6"
                     } flex w-full ${getButtonAlignment()}`}
                   >
                     <button
@@ -462,7 +502,7 @@ export default function EditorPage() {
                         width: `${template?.custom?.buttonWidth || 100}%`,
                       }}
                     >
-                      {submitButton.label}
+                      {template?.submitButton.label}
                     </button>
                   </div>
                 )}
@@ -836,10 +876,13 @@ export default function EditorPage() {
 
                       if (validateNotifications(template)) {
                         setCurrTemplate(template);
+                        saveTemplate(template);
                       }
                     }}
                   >
-                    Save Notification Settings
+                    {useFormStore.getState().isLoading
+                      ? "Saving..."
+                      : "Save Notification Settings"}
                   </Button>
                 </div>
               </div>
@@ -1110,12 +1153,9 @@ export default function EditorPage() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Button Label</label>
                     <Input
-                      value={submitButton?.label || ""}
+                      value={template?.submitButton?.label || ""}
                       onChange={(e) =>
-                        setSubmitButton({
-                          ...submitButton,
-                          label: e.target.value,
-                        })
+                        updateButtonFields("label", e.target.value)
                       }
                     />
                   </div>
@@ -1123,24 +1163,20 @@ export default function EditorPage() {
                     <label className="text-sm font-medium">Redirect URL</label>
                     <Input
                       placeholder="https://example.com"
-                      value={submitButton?.redirectUrl || ""}
+                      value={template?.submitButton?.redirectUrl || ""}
                       onChange={(e) =>
-                        setSubmitButton({
-                          ...submitButton,
-                          label: submitButton?.label ?? "",
-                          redirectUrl: e.target.value,
-                        })
+                        updateButtonFields("redirectUrl", e.target.value)
                       }
                       className={`${
-                        submitButton?.redirectUrl?.trim() &&
-                        !isValidURL(submitButton.redirectUrl.trim())
+                        template?.submitButton?.redirectUrl?.trim() &&
+                        !isValidURL(template.submitButton.redirectUrl.trim())
                           ? "border-red-500 focus:border-red-500"
                           : ""
                       }`}
                     />
 
-                    {submitButton?.redirectUrl?.trim() &&
-                      !isValidURL(submitButton.redirectUrl.trim()) && (
+                    {template?.submitButton?.redirectUrl?.trim() &&
+                      !isValidURL(template.submitButton.redirectUrl.trim()) && (
                         <span className="text-xs text-red-500">
                           Please enter a valid HTTPS URL ending with a valid
                           domain (e.g. .com, .org).

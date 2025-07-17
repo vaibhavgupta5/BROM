@@ -7,17 +7,17 @@ const prisma = new PrismaClient();
 export async function PATCH(req: NextRequest) {
   const body = await req.json();
 
-  if (!body || !body.formId) {
+  if (!body || !body.id) {
     return new Response("Form ID and data required", { status: 400 });
   }
 
   try {
     await prisma.formField.deleteMany({
-      where: { formId: body.formId },
+      where: { formId: body.id },
     });
 
     const updatedForm = await prisma.form.update({
-      where: { id: body.formId },
+      where: { id: body.id },
       data: {
         title: body.title,
         wrapper: body.wrapper,

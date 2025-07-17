@@ -56,18 +56,18 @@ export const validateNotifications = (template: TemplateType): boolean => {
     return false;
   }
 
-  const userEmailField = template?.custom?.userEmailField?.trim();
-  if (!userEmailField) {
-    toast.error("Select an email field from the form",{
-        position: "bottom-left",
-        duration: 3000,
-        style: {
-          background: "#f8d7da",
-          color: "#721c24",
-        },
-    });
-    return false;
-  }
+  // const userEmailField = template?.custom?.userEmailField?.trim();
+  // if (!userEmailField) {
+  //   toast.error("Select an email field from the form",{
+  //       position: "bottom-left",
+  //       duration: 3000,
+  //       style: {
+  //         background: "#f8d7da",
+  //         color: "#721c24",
+  //       },
+  //   });
+  //   return false;
+  // }
 
   if (!template?.custom?.userEmailSubject?.trim()) {
     toast.error("User email subject cannot be empty",{
@@ -116,6 +116,12 @@ export const validateNotifications = (template: TemplateType): boolean => {
     });
     return false;
   }
+
+  toast.success("Saving Form...",{
+      position: "bottom-left",
+      duration: 3000,
+     
+  });
 
   return true;
 };
