@@ -13,11 +13,19 @@ import {
   formTemplates,
   TemplateType,
 } from "@/constants/formTemplates";
-import { Check, ChevronLeft, ChevronRight, Loader2, Plus, XIcon } from "lucide-react";
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Plus,
+  XIcon,
+} from "lucide-react";
 import { isValidURL } from "@/lib/utils";
 import AddFieldForm from "@/components/add-new-field";
 import { useFormStore } from "@/store/formStore";
 import { validateNotifications } from "@/errors/notification-edit";
+import IntegrationPage from "@/components/IntegrationPage";
 
 // interface ButtonField {
 //   label: string;
@@ -266,24 +274,19 @@ export default function EditorPage() {
                   {template?.id && template.id.toString().length > 2
                     ? "Save"
                     : "Publish"}
-              </span>
-              <Check className="ml-2 w-4 h-4" />
-            </div>
-
-           ) : (
-            <div className="flex items-center">
-              <span>
-              {template?.id && template.id.toString().length > 2
-                ? "Saving..."
-                : "Publishing..."}
-            </span>
-            <Loader2 className="ml-2 w-4 h-4 animate-spin" />
-            </div>
-          )}
-
-          
-          
-          
+                </span>
+                <Check className="ml-2 w-4 h-4" />
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <span>
+                  {template?.id && template.id.toString().length > 2
+                    ? "Saving..."
+                    : "Publishing..."}
+                </span>
+                <Loader2 className="ml-2 w-4 h-4 animate-spin" />
+              </div>
+            )}
           </button>
         </div>
       </header>
@@ -886,6 +889,10 @@ export default function EditorPage() {
                   </Button>
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="integrate" className="p-4">
+              <IntegrationPage />
             </TabsContent>
           </Tabs>
 

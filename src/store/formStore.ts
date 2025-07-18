@@ -13,6 +13,7 @@ interface FormStore {
   saveTemplate: (template: TemplateType) => Promise<void>;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  getForm: (formId: string) => Promise<TemplateType | null | undefined>;
 }
 
 const getFirebaseUserId = async (): Promise<string | null | undefined> => {
@@ -109,4 +110,17 @@ export const useFormStore = create<FormStore>((set) => ({
   },
   isLoading: false,
   setIsLoading: (loading) => set({ isLoading: loading }),
+
+  getForm: async (formId) => {
+    if (!formId) return null;
+
+    try {
+      const response = await axios.post("/api/getForm", { formId });
+      return response.data as TemplateType;
+    } catch (error) {
+      console.error("Error fetching form:", error);
+      return null;
+    }
+  },
+
 }));
